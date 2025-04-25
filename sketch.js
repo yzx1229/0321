@@ -11,59 +11,49 @@ function preload() {
   questionData = loadTable('questions.csv', 'csv', 'header');
 }
 
-function setup() { //這是一個初始設定函數，只會在程式開始時執行一次
-  createCanvas(windowWidth, windowHeight); //產生一個全視窗的畫布
-  
-  // 設定radio按鈕
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(255, 228, 225); // 柔和的粉色背景
+  textFont('Comic Sans MS'); // 可愛字體
+  textSize(24);
+  fill(0);
+  noStroke();
+
+  // 設定 radio 按鈕
   radio = createRadio();
   radio.style('width', 'auto');
-  radio.style('color', '#283618');
+  radio.style('color', '#283618'); // 深綠色文字
+  radio.style('font-size', '20px'); // 增大字體
+  radio.style('background-color', '#FFFAF0'); // 柔和的背景色
+  radio.style('border', '2px solid #F4A261'); // 可愛的橘色邊框
+  radio.style('border-radius', '10px'); // 圓角
+  radio.style('padding', '10px'); // 增加內距
+  radio.style('margin', '10px'); // 增加間距
+  radio.style('box-shadow', '2px 2px 5px rgba(0, 0, 0, 0.2)'); // 添加陰影
   radio.position((windowWidth - 240) / 2, (windowHeight + 20) / 2);
-  
+
   // 設定文字框
   inputBox = createInput();
   inputBox.position((windowWidth - 100) / 2, (windowHeight + 20) / 2);
   inputBox.hide();
-  
+
   // 設定送出按鈕
   submitButton = createButton('下一題');
   submitButton.position((windowWidth - 60) / 2, (windowHeight + 80) / 2);
+  submitButton.style('background-color', '#FFB6C1'); // 粉紅色按鈕
+  submitButton.style('color', '#FFFFFF'); // 白色文字
+  submitButton.style('font-size', '18px'); // 增大字體
+  submitButton.style('border', 'none'); // 移除邊框
+  submitButton.style('border-radius', '10px'); // 圓角
+  submitButton.style('padding', '10px 20px'); // 增加內距
+  submitButton.style('box-shadow', '2px 2px 5px rgba(0, 0, 0, 0.2)'); // 添加陰影
   submitButton.mousePressed(nextQuestion);
-  
+
   loadQuestion();
 }
 
-function draw() { //這是一個繪圖函數，會一直執行直到程式結束
-  background("#ffe4e1"); // 使用柔和的粉色背景
-  
-  // 設定填充顏色
-  fill("#fff5f5");
-  stroke("#ffb6c1"); // 使用粉色邊框
-  strokeWeight(4); // 邊框加粗
-  
-  // 計算圓角矩形的位置和大小
-  let rectWidth = windowWidth / 2;
-  let rectHeight = windowHeight / 2;
-  let rectX = (windowWidth - rectWidth) / 2;
-  let rectY = (windowHeight - rectHeight) / 2;
-  
-  // 繪製圓角矩形
-  rect(rectX, rectY, rectWidth, rectHeight, 20); // 圓角半徑設為20
-  
-  // 加入可愛的圖案 (例如小星星)
-  noStroke();
-  fill("#ffd700"); // 金黃色
-  for (let i = 0; i < 5; i++) {
-    let starX = random(width);
-    let starY = random(height);
-    ellipse(starX, starY, 10, 10); // 畫小星星
-  }
-  
-  // 加入可愛的文字
-  fill("#ff69b4"); // 使用亮粉色
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  text("歡迎來到可愛的問答遊戲！", width / 2, height / 4);
+function draw() {
+  drawBackground();
 
   // 顯示題目
   fill(0);
@@ -74,10 +64,20 @@ function draw() { //這是一個繪圖函數，會一直執行直到程式結束
   } else {
     text(`答對了 ${correctCount} 題，答錯了 ${incorrectCount} 題`, windowWidth / 2, windowHeight / 2 - 50);
   }
-  
+
   // 顯示結果
   textSize(20);
   text(result, windowWidth / 2, windowHeight / 2 + 150);
+}
+
+function drawBackground() {
+  background(255, 228, 225); // 粉色背景
+  for (let i = 0; i < width; i += 50) {
+    for (let j = 0; j < height; j += 50) {
+      fill(255, 182, 193); // 心形顏色
+      ellipse(i + 10, j + 10, 10, 10); // 小圓點
+    }
+  }
 }
 
 function loadQuestion() {
@@ -105,6 +105,16 @@ function loadQuestion() {
       inputBox.value('');
     }
     
+    // 調整 radio 和按鈕的位置
+    radio.position((windowWidth - 300) / 2, (windowHeight / 2)); // 選項放在畫面中間
+    radio.style('display', 'flex'); // 使用 flex 排版
+    radio.style('flex-direction', 'row'); // 橫向排列選項
+    radio.style('justify-content', 'center'); // 選項置中對齊
+    radio.style('align-items', 'center'); // 垂直置中
+    radio.style('gap', '20px'); // 增加選項之間的間距
+
+    submitButton.position((windowWidth - 60) / 2, (windowHeight / 2) + 100); // 按鈕放在選項下方
+    
     result = "";
   } else {
     submitButton.html('再試一次');
@@ -124,12 +134,32 @@ function nextQuestion() {
     if (answer === correctAnswer) {
       correctCount++;
       result = "答對了";
+      showCorrectEffect(); // 顯示正確特效
     } else {
       incorrectCount++;
       result = "答錯了";
+      showIncorrectEffect(); // 顯示錯誤特效
     }
     currentQuestionIndex++;
     loadQuestion();
+  }
+}
+
+function showCorrectEffect() {
+  for (let i = 0; i < 10; i++) {
+    setTimeout(() => {
+      fill(random(100, 255), random(200, 255), random(100, 255));
+      ellipse(random(width), random(height), 50, 50); // 隨機閃爍的星星
+    }, i * 100);
+  }
+}
+
+function showIncorrectEffect() {
+  for (let i = 0; i < 10; i++) {
+    setTimeout(() => {
+      fill(255, random(50, 100), random(50, 100));
+      rect(random(width), random(height), 50, 50); // 隨機紅色方塊
+    }, i * 100);
   }
 }
 
@@ -139,12 +169,13 @@ function resetQuiz() {
   incorrectCount = 0;
   submitButton.html('下一題');
   submitButton.mousePressed(nextQuestion);
+  drawBackground(); // 重置背景
   loadQuestion();
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
-  radio.position((windowWidth - 240) / 2, (windowHeight + 20) / 2);
+  radio.position((windowWidth - 300) / 2, (windowHeight / 2));
   inputBox.position((windowWidth - 100) / 2, (windowHeight + 20) / 2);
-  submitButton.position((windowWidth - 60) / 2, (windowHeight + 80) / 2);
+  submitButton.position((windowWidth - 60) / 2, (windowHeight / 2) + 100);
 }
