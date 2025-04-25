@@ -34,20 +34,37 @@ function setup() { //這是一個初始設定函數，只會在程式開始時�
 }
 
 function draw() { //這是一個繪圖函數，會一直執行直到程式結束
-  background("#faedcd"); //一直塗上整張畫布的背景色
+  background("#ffe4e1"); // 使用柔和的粉色背景
   
   // 設定填充顏色
-  fill("#fefae0");
+  fill("#fff5f5");
+  stroke("#ffb6c1"); // 使用粉色邊框
+  strokeWeight(4); // 邊框加粗
   
-  // 計算矩形的位置和大小
+  // 計算圓角矩形的位置和大小
   let rectWidth = windowWidth / 2;
   let rectHeight = windowHeight / 2;
   let rectX = (windowWidth - rectWidth) / 2;
   let rectY = (windowHeight - rectHeight) / 2;
   
-  // 繪製矩形
-  rect(rectX, rectY, rectWidth, rectHeight);
+  // 繪製圓角矩形
+  rect(rectX, rectY, rectWidth, rectHeight, 20); // 圓角半徑設為20
   
+  // 加入可愛的圖案 (例如小星星)
+  noStroke();
+  fill("#ffd700"); // 金黃色
+  for (let i = 0; i < 5; i++) {
+    let starX = random(width);
+    let starY = random(height);
+    ellipse(starX, starY, 10, 10); // 畫小星星
+  }
+  
+  // 加入可愛的文字
+  fill("#ff69b4"); // 使用亮粉色
+  textSize(32);
+  textAlign(CENTER, CENTER);
+  text("歡迎來到可愛的問答遊戲！", width / 2, height / 4);
+
   // 顯示題目
   fill(0);
   textSize(35);
