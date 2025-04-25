@@ -1,7 +1,5 @@
 question,option1,option2,option3,option4,answer
-請問1+1=?,1,2,3,4,2
-請問2+2=?,2,3,4,5,4
-請問3+3=?,5,6,7,8,6
-請問4+4=?,6,7,8,9,8
-請問5+5=?,8,9,10,11,10
-請問6+6是多少?,,,,,12
+請問作網站要在哪裡用?,sketch.js,style.css,index.html,libraries,index.html
+請問要怎麼讓網站停留在原來畫面?,iphone,iclass,ipad,iframe,iframe
+請問網站可以存放在哪?,hackmd,github,iclass,chatgpt,github
+請問老師名字叫什麼?,,,,,陳慶帆
